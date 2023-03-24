@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Test JS</title>
+</head>
+<body>
+	<script>
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+		function isIOS() 
+		{
+			if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) 
+			{
+ 				return true;
+ 			} 
+ 			else 
+ 			{
+ 				return false;
+ 			}
+		}
+		
+		function isAndroid() 
+		{
+			return (/android/i.test(userAgent));
+		}
+
+		function sendMessageToUnity(message) 
+		{
+ 			if (isIOS()) 
+ 			{
+ 				try 
+ 				{
+ 					webkit.messageHandlers.UnityInAppBrowser.postMessage(message);
+ 				} 
+ 				catch(err) 
+ 				{
+ 					console.log('Can not reach native code');
+ 				}
+ 			} 
+ 			else if (isAndroid())
+ 			{
+ 				UnityInAppBrowser.sendMessageFromJS(message);
+ 			}
+		}
+
+
+		sendMessageToUnity('test')
+	</script>
+</body>
+</html>
